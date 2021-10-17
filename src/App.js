@@ -19,12 +19,11 @@ const TOAST_OPTIONS = {
   theme: 'colored',
 };
 
-const defaultPageNumber = 1;
 const perPage = 12;
 
 export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [pageNumber, setPageNumber] = useState(defaultPageNumber);
+  const [pageNumber, setPageNumber] = useState(1);
   const [images, setImages] = useState([]);
   const [showLoadMoreBtn, setShowLoadMoreBtn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -73,6 +72,11 @@ export default function App() {
     getImagesCollection();
   }, [searchQuery, pageNumber]);
 
+  const onLoadMoreBtnClick = e => {
+    e.preventDefault();
+    setPageNumber(pageNumber => pageNumber + 1);
+  };
+
   const onSearchbarSubmit = searchQuery => {
     if (!searchQuery.trim()) {
       toast.error('Empty query', TOAST_OPTIONS);
@@ -80,23 +84,18 @@ export default function App() {
     }
     setSearchQuery(searchQuery);
     setImages([]);
-    setPageNumber(defaultPageNumber);
+    setPageNumber(1);
     setShowLoadMoreBtn(false);
-  };
-
-  const onLoadMoreBtnClick = e => {
-    e.preventDefault();
-    setPageNumber(pageNumber => pageNumber + 1);
-  };
-
-  const toggleModal = () => {
-    setShowModal(showModal => !showModal);
-    setModalImageInfo(modalImageInfo => modalImageInfo && null);
   };
 
   const onImageClick = ({ originUrl, tags }) => {
     toggleModal();
     setModalImageInfo({ url: originUrl, tags });
+  };
+
+  const toggleModal = () => {
+    setShowModal(showModal => !showModal);
+    setModalImageInfo(modalImageInfo => modalImageInfo && null);
   };
 
   return (
