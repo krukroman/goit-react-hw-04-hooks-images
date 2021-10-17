@@ -2,17 +2,17 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 export default function Searchbar({ onSubmit }) {
-  const [query, setQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleChange = e => {
     const { value } = e.target;
-    setQuery(value);
+    setSearchQuery(value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSubmit(query.toLocaleLowerCase());
-    setQuery('');
+    onSubmit(searchQuery.toLocaleLowerCase());
+    setSearchQuery('');
   };
 
   return (
@@ -26,7 +26,7 @@ export default function Searchbar({ onSubmit }) {
           className="SearchForm-input"
           type="text"
           onChange={handleChange}
-          value={query}
+          value={searchQuery}
           autoComplete="off"
           autoFocus
           placeholder="Search images and photos"
@@ -37,5 +37,5 @@ export default function Searchbar({ onSubmit }) {
 }
 
 Searchbar.propTypes = {
-  onSubmit: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
 };
